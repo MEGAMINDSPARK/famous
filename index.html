@@ -16,21 +16,31 @@
   <div class="container">
    <div id="main" class="card card-body">
     <h2 class="title">Add Items</h2>
-    <form class="form-inline mb-3">
-      <input type="text" class="form-control mr-2">
+    <form id="item-form" class="form-inline mb-3">
+      <input type="text" id="name-input" class="form-control mr-2" placeholder="Enter item name">
+      <input type="text" id="description-input" class="form-control mr-2" placeholder="Enter item description">
       <input type="submit" class="btn btn-dark" value="Submit">
     </form>
     <h2 class="title">Items</h2>
+    <input type="text" id="search-input" class="form-control mb-3" placeholder="Search...">
     <ul id="items" class="list-group">
-      <ul id="items" class="list-group">
-        <li class="list-group-item">Hello World Item 1<button class="btn btn-sm btn-primary float-right mr-1">Edit</button><button class="btn btn-sm btn-danger float-right">Delete</button></li>
-        <li class="list-group-item">Item 2<button class="btn btn-sm btn-primary float-right mr-1">Edit</button><button class="btn btn-sm btn-danger float-right">Delete</button></li>
-        <li class="list-group-item">Item 3<button class="btn btn-sm btn-primary float-right mr-1">Edit</button><button class="btn btn-sm btn-danger float-right">Delete</button></li>
-        <li class="list-group-item">Item 4<button class="btn btn-sm btn-primary float-right mr-1">Edit</button><button class="btn btn-sm btn-danger float-right">Delete</button></li>
-      </ul>
-      
+      <li class="list-group-item">Hello World Item 1<br><small>Description of Hello World Item 1</small><button class="btn btn-sm btn-primary float-right mr-1">Edit</button><button class="btn btn-sm btn-danger float-right">Delete</button></li>
+      <li class="list-group-item">Item 2<br><small>Description of Item 2</small><button class="btn btn-sm btn-primary float-right mr-1">Edit</button><button class="btn btn-sm btn-danger float-right">Delete</button></li>
+      <li class="list-group-item">Item 3<br><small>Description of Item 3</small><button class="btn btn-sm btn-primary float-right mr-1">Edit</button><button class="btn btn-sm btn-danger float-right">Delete</button></li>
+      <li class="list-group-item">Item 4<br><small>Description of Item 4</small><button class="btn btn-sm btn-primary float-right mr-1">Edit</button><button class="btn btn-sm btn-danger float-right">Delete</button></li>
     </ul>
    </div>
   </div>
-</body>
-</html>
+  <script>
+    const form = document.querySelector('#item-form');
+    const itemList = document.querySelector('#items');
+    const nameInput = document.querySelector('#name-input');
+    const descriptionInput = document.querySelector('#description-input');
+    const searchInput = document.querySelector('#search-input');
+
+    // Add event listener to search input
+    searchInput.addEventListener('input', () => {
+      const searchStr = searchInput.value.toLowerCase();
+      const items = itemList.querySelectorAll('li');
+      items.forEach((item) => {
+        const name = item.childNodes[0].textContent
