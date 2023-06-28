@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manali</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    function buyCar() {
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                res('buy a car')
+            }, 5000);
+        })
+    }
+    function planatrip() {
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                res('Lets go to manali')
+            }, 1000);
+        })
+    }
+    function reachManali() {
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                res('reached manali')
+            }, 1000);
+        })
+    }
+
+    function goTofamousmountain() {
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                res('some accident happened')
+            }, 1000);
+        })
+    }
+
+    async function fun1() {
+        try {
+            const msg = await buyCar();
+            console.log(msg);
+            const msg2 = await planatrip();
+            console.log(msg2);
+            const msg3 = await reachManali();
+            console.log(msg3);
+            const msg4 = await goTofamousmountain()
+            console.log(msg4);
+
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    fun1()
+</script>
