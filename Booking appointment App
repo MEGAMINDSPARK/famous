@@ -1,1 +1,146 @@
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Booking Appointment App</title>
+</head>
+
+<body>
+    <header>
+        <h1>Booking Appointment App</h1>
+    </header>
+
+    <section class="container">
+        <form id="form" onsubmit="saveToCrudCrud(event)">
+            <h1>Add User</h1>
+            <div class="msg"></div>
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name">
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="text" id="email">
+            </div>
+            <input class="btn" type="submit" value="Submit">
+        </form>
+
+        <table>
+            <tbody></tbody>
+        </table>
+    </section>
+
+
+</body>
+
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+
+
+    function saveToCrudCrud(event) {
+        event.preventDefault();
+        let name = document.querySelector("#name").value;
+        let email = document.querySelector("#email").value;
+
+        let obj = {
+            name,
+            email
+        }
+
+        axios.post("https://crudcrud.com/api/01a72d3ad56540c4b2a74a7c442af074/list", obj)
+            .then(function (response) {
+                display([obj])
+                console.log(response);
+            })
+            .catch(function (error) {
+                document.innerHTML = document.body.innerHTML + "<h4>Something went wrong<h4>"
+                console.log(error)
+            })
+    }
+    //to get the data every time page is loaded, we add a event
+    //listener to the window or to the DOM you can say
+
+    window.addEventListener("DOMContentLoaded", function () {
+        axios.get("https://crudcrud.com/api/01a72d3ad56540c4b2a74a7c442af074/list")
+            .then(function (response) {
+                console.log(response.data);
+                display(response.data)
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    })
+
+
+    function display(res) {
+        let parent = document.querySelector("tbody");
+        let newRow;
+        res.forEach(function (el) {
+            newRow = document.createElement("tr");
+            let nameCell = document.createElement("td");
+            nameCell.textContent = el.name;
+            let emailCell = document.createElement("td");
+            emailCell.textContent = el.email;
+
+            let deleteCell = document.createElement('td');
+
+            let editCell = document.createElement('td');
+
+
+            let deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", deleteUser);
+            deleteCell.append(deleteButton);
+
+
+            let editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+            editButton.addEventListener("click", editUser);
+            editCell.append(editButton);
+
+            newRow.append(nameCell, emailCell, deleteCell, editCell);
+            newRow.setAttribute("data-id", el._id);//set the unique id from api to the row as attribute
+            parent.appendChild(newRow);
+        });
+
+    }
+    function deleteUser(event) {
+        let row = event.target.parentNode.parentNode;
+        let userId = row.getAttribute("data-id");
+
+        axios.delete(`https://crudcrud.com/api/01a72d3ad56540c4b2a74a7c442af074/list/${userId}`)
+            .then(function (response) {
+                row.remove();
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+    function editUser(event) {
+        let row = event.target.parentNode.parentNode;
+        let userId = row.getAttribute("data-id");
+        // Fetch the user object from the API using its _id
+        axios.get(`https://crudcrud.com/api/01a72d3ad56540c4b2a74a7c442af074/list/${userId}`)
+            .then(function (response) {
+                let user = response.data;
+
+                // Populate the form fields with the user data
+                document.querySelector("#name").value = user.name;
+                document.querySelector("#email").value = user.email;
+                // To delete the row
+                deleteUser(event);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+</script>
