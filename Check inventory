@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project</title>
+</head>
+<link rel="stylesheet" href="style.css">
+<style>
+
+form{
+    
+    background-color: rgb(233, 214, 134);
+    padding: 10px;
+    height: 700px;
+    width: 50%;
+    display: grid;
+    border: 4px solid rgb(51, 48, 48);
+    border-radius: 29px;
+    margin: auto;
+}
+input{
+    /* padding: 15px; */
+    border-radius: 80px;
+    margin: 10px 10px;
+    font-size: 40px;
+}
+span{
+    /* border: 1px solid red; */
+    padding: 1px;
+    font-size: 30px;
+    font-family:cursive;
+    margin-bottom: -110px;
+}
+#addItem{
+    padding: 10px;
+    font-size: 25px;
+    background-color: rgba(127, 201, 201, 0.847);
+    border-radius: 70px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+/* div{
+    border: 1px solid black;
+    margin: auto;
+    height: auto;
+    width: 51%;
+    font-size: 40px; 
+} */
+
+</style>
+
+<body>
+    <form action="" id="form">
+        <span>Item Name</span>
+        <input type="text" name="" id="itemName">
+        <span>Description</span>
+        <input type="text" name="" id="descrip">
+        <span>Price</span>
+        <input type="number" name="" id="price">
+        <span>Quantity</span>
+        <input type="number" name="" id="qty">
+        <input type="submit" name="" value="Add Item" id="addItem">
+    </form>
+
+    <div></div>
+
+
+
+</body>
+
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+<script>
+    var form = document.getElementById('form');
+    form.addEventListener('submit', createFun);
+    function createFun(e) {
+        e.preventDefault();
+        console.log(1);
+        console.log("inside display function");
+        let itmName = document.querySelector('#itemName').value;
+        let desc = document.querySelector('#descrip').value;
+        let price = document.querySelector('#price').value;
+        let qty = document.querySelector('#qty').value;
+
+        let obj = {
+            itmName, desc, price, qty
+        }
+        axios.post(`https://crudcrud.com/api/e17a04e191a348d8a85a548be42701e1/users`, obj)
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log("error is ", err);
+            })
+        display(obj);
+
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        axios.get('https://crudcrud.com/api/e17a04e191a348d8a85a548be42701e1/users')
+            .then((res) => {
+                console.log("res.data ye hai ", res.data)
+                display(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        console.log("inside add event listener");
+    })
+
+    function display(e) {
+        // console.log(e);
+        e.forEach(element => {
+
+
+            let td1 = document.createElement('td')
+            td1.innerHTML = `<h4>${element.itmName} </h4>`
+            let td2 = document.createElement('td')
+            td2.innerHTML = `<h4> ${element.desc} </h4>`
+            let td3 = document.createElement('td')
+            td3.innerHTML = `<h4> ${element.price}rs</h4>`
+            let td4 = document.createElement('td')
+            td4.innerHTML = `<h4> quantity = ${element.qty} </h4>`
+
+            let buy1 = document.createElement('button');
+            buy1.innerText = 'Buy1'
+
+            buy1.addEventListener('click', () => {
+                console.log("inside buy1 fun");
+                if (element.qty >= 1) {
+                    element.qty--;
+                    td4.innerHTML = `<h4> quantity = ${element.qty} </h4>`
+                    axios.put(`https://crudcrud.com/api/e17a04e191a348d8a85a548be42701e1/users/${element._id}`,{
+                        itmName: element.itmName,
+                        desc: element.desc,
+                        price: element.price,
+                        qty: element.qty
+                    })
+                        .then((res) => {
+                            console.log("res.data is ", res.data);
+                        }).catch((err) => {
+                            console.log(err);
+                        })
+                }
+                else {
+                    confirm("Try Later Stock Out")
+                }
+                console.log("display funciton called ");
+            })
+            let buy2 = document.createElement('button');
+            buy2.innerText = 'Buy2'
+
+            buy2.addEventListener('click', () => {
+                console.log("inside buy1 fun");
+                if (element.qty >= 2) {
+                    element.qty--;
+                    element.qty--;
+                    td4.innerHTML = `<h4> quantity = ${element.qty} </h4>`
+                    axios.put(`https://crudcrud.com/api/e17a04e191a348d8a85a548be42701e1/users/${element._id}`,{
+                        itmName: element.itmName,
+                        desc: element.desc,
+                        price: element.price,
+                        qty: element.qty
+                    })
+                        .then((res) => {
+                            console.log("res.data is ", res.data);
+                        }).catch((err) => {
+                            console.log(err);
+                        })
+                }
+                else {
+                    confirm("Try Later Stock Out")
+                }
+                console.log("display funciton called ");
+            })
+            let buy3 = document.createElement('button');
+            buy3.innerText = 'Buy3'
+
+            buy3.addEventListener('click', () => {
+                console.log("inside buy1 fun");
+                if (element.qty >= 1) {
+                    element.qty--;
+                    element.qty--;
+                    element.qty--;
+                    td4.innerHTML = `<h4> quantity = ${element.qty} </h4>`
+                    axios.put(`https://crudcrud.com/api/e17a04e191a348d8a85a548be42701e1/users/${element._id}`,{
+                        itmName: element.itmName,
+                        desc: element.desc,
+                        price: element.price,
+                        qty: element.qty
+                    })
+                        .then((res) => {
+                            console.log("res.data is ", res.data);
+                        }).catch((err) => {
+                            console.log(err);
+                        })
+                }
+                else {
+                    confirm("Try Later Stock Out")
+                }
+                console.log("display funciton called ");
+            })
+
+
+
+            let tr = document.createElement('tr')
+
+            tr.append(td1, td2, td3, td4, buy1, buy2, buy3);
+            // tr.append(td1, td2, td3, td4, buy1);
+
+            document.querySelector('div').append(tr)
+
+        });
+    }
+
+
+</script>
+
+<!-- 
+       let buy2 = document.createElement('button');
+        buy2.innerText = 'Buy2';
+        buy2.addEventListener('click', () => {
+            if (e.qty >= 2) {
+                e.itmName, e.desc, e.price
+                e.qty--;
+                e.qty--;
+                td4.innerHTML = `<h4> quantity = ${e.qty} </h4>`
+                axios.put(`https://crudcrud.com/api/e17a04e191a348d8a85a548be42701e1/users/${e._id}`).then((res) => {
+                    console.log(res.data);
+                }).catch((err) => {
+                    console.log(err);
+                })
+            }
+            else {
+                confirm("Try Later Stock Out")
+            }
+        })
+        let buy3 = document.createElement('button');
+        buy3.innerText = 'Buy3';
+        buy3.addEventListener('click', () => {
+            if (e.qty >= 3) {
+                e.itmName, e.desc, e.price
+                e.qty--;
+                e.qty--;
+                e.qty--;
+                td4.innerHTML = `<h4> quantity = ${e.qty} </h4>`
+                axios.put(`https://crudcrud.com/api/e17a04e191a348d8a85a548be42701e1/users/${e._id}`).then((res) => {
+                    console.log(res.data);
+                }).catch((err) => {
+                    console.log(err);
+                })
+            }
+
+            else {
+                confirm("Try Later Stock Out")
+            }
+        })
+ -->
